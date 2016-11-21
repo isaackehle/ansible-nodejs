@@ -10,9 +10,14 @@
 
   - name: Install required packages
     apt:
+      update_cache: yes
+    become: true
+    changed_when: false
+
+  - name: Install required packages
+    apt:
       name: "{{item}}"
       state: installed
-      update_cache: yes
     with_items:
       - build-essential
       - nodejs
@@ -20,3 +25,33 @@
       - libldap2-dev
       - libkrb5-dev
     become: true
+
+  - name: Install libcap2-bin when required
+    apt:
+      name: "{{item}}"
+      state: installed
+    with_items:
+      - libcap2-bin
+    become: true
+    when:
+      - do_port_enable|bool == true
+
+  - name: Test User Permissions To Use Port 80
+    shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
+    become: true
+    register: results_cap
+    when:
+      - do_port_enable|bool == true
+    failed_when: results_cap.rc > 1
+    changed_when: false
+
+  - set_fact:
+      differs: "{{results_cap.stdout.find('differs') >= 1}}"
+
+  - name: Give Safe User Permission To Use Port 80
+    shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
+    become: true
+    when:
+      - do_port_enable|bool == true
+      - differs|bool == true
+
