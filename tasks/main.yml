@@ -1,0 +1,22 @@
+---
+
+  - name: Drop the apt list template into place
+    template: src=../templates/nodesource.list.j2 dest=/etc/apt/sources.list.d/nodesource.list owner="root" group="root" mode="0644"
+    become: true
+
+  - name: Install the nodesource GPG key
+    apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+    become: true
+
+  - name: Install required packages
+    apt:
+      name: "{{item}}"
+      state: installed
+      update_cache: yes
+    with_items:
+      - build-essential
+      - nodejs
+      - uuid-dev
+      - libldap2-dev
+      - libkrb5-dev
+    become: true
