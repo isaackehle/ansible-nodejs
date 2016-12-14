@@ -36,7 +36,7 @@
     when:
       - do_port_enable|bool == true
 
-  - name: Test User Permissions To Use Port 80
+  - name: Test User Permissions To Use Ports 80/443
     shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
     register: results_cap
@@ -48,7 +48,7 @@
   - set_fact:
       differs: "{{results_cap.stdout.find('differs') >= 1}}"
 
-  - name: Give Safe User Permission To Use Port 80
+  - name: Give Safe User Permission To Use Ports 80/443
     shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
     when:
