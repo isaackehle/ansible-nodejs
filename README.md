@@ -1,6 +1,6 @@
 # Ansible: nodejs
 
-Install NodeJS on a server
+Install NodeJS on a system
 
 Available on Ansible Galaxy: [pgkehle.nodejs](https://galaxy.ansible.com/pgkehle/nodejs)
 

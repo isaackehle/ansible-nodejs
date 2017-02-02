@@ -1,6 +1,6 @@
 galaxy_info:
   author: Paul Kehle <twitter.com/pgkehle>
-  description: Install NodeJS on a server
+  description: Install NodeJS on a system
   company: pgkehle
   license: MIT
   min_ansible_version: 1.9
