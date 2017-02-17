@@ -3,16 +3,19 @@
   - name: Drop the apt list template into place
     template: src=../templates/nodesource.list.j2 dest=/etc/apt/sources.list.d/nodesource.list owner="root" group="root" mode="0644"
     become: true
+    tags: [ 'install' ]
 
   - name: Install the nodesource GPG key
     apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
     become: true
+    tags: [ 'install' ]
 
   - name: Install required packages
     apt:
       update_cache: yes
     become: true
     changed_when: false
+    tags: [ 'install' ]
 
   - name: Install required packages
     apt:
@@ -26,6 +29,7 @@
       - libldap2-dev
       - libkrb5-dev
     become: true
+    tags: [ 'install' ]
 
   - name: Install libcap2-bin when required
     apt:
@@ -34,15 +38,13 @@
     with_items:
       - libcap2-bin
     become: true
-    when:
-      - do_port_enable|bool == true
+    tags: [ 'install', 'port_enable' ]
 
   - name: Test User Permissions To Use Ports 80/443
     shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
     register: results_cap
-    when:
-      - do_port_enable|bool == true
+    tags: [ 'install', 'port_enable' ]
     failed_when: results_cap.rc > 1
     changed_when: false
 
@@ -52,8 +54,8 @@
   - name: Give Safe User Permission To Use Ports 80/443
     shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
+    tags: [ 'install', 'port_enable' ]
     when:
-      - do_port_enable|bool == true
       - differs|bool == true
 
 #sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
