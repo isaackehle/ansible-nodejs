@@ -6,8 +6,7 @@ Available on Ansible Galaxy: [pgkehle.nodejs](https://galaxy.ansible.com/pgkehle
 
 ## Tags for which sections to run
 ```yaml
-install:        Install nodejs packages
-port_enable:    Run the `setcap` command to allow the process to open a port
+init:           # Basic installation
 ```
 
 ## Examples
@@ -15,7 +14,7 @@ port_enable:    Run the `setcap` command to allow the process to open a port
 ```yaml
 - hosts: all
   roles:
-    - { role: pgkehle.nodejs, tags: [ 'install', 'port_enable' ], when: (vm_client_type == 'gui') }
+    - { role: pgkehle.nodejs, flags: ['init'] }     
 ```
 
 ## License
