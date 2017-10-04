@@ -1,4 +1,4 @@
-# Ansible: nodejs
+# Ansible Role - nodejs
 
 Install NodeJS on a system
 
@@ -30,9 +30,8 @@ Paul Kehle
 ## For local development testing
 
 ```bash
-rsync -av ~/code/ansible-nodejs/* ~/.ansible/roles/pgkehle.nodejs
+rsync -av --delete ~/code/ansible-nodejs/* ~/.ansible/roles/pgkehle.nodejs
 ```
-
 
 ### References
 
