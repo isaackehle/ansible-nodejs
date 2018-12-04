@@ -38,13 +38,13 @@
     with_items:
       - libcap2-bin
     become: true
-    when: ((['init'] | intersect(flags)) | length > 0) and (vm_client_type == 'gui')
+    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
 
   - name: Test User Permissions To Use Ports 80/443
     shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
     register: results_cap
-    when: ((['init'] | intersect(flags)) | length > 0) and (vm_client_type == 'gui')
+    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
     failed_when: results_cap.rc > 1
     changed_when: false
 
@@ -54,6 +54,6 @@
   - name: Give Safe User Permission To Use Ports 80/443
     shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
     become: true
-    when: ((['init'] | intersect(flags)) | length > 0) and (vm_client_type == 'gui') and (differs|bool == true)
+    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true) and (differs|bool == true)
 
 #sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``

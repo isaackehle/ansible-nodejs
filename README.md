@@ -26,13 +26,6 @@ MIT
 Paul Kehle  
 @pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
 
-
-## For local development testing
-
-```bash
-rsync -av --delete ~/code/ansible-nodejs/* ~/.ansible/roles/pgkehle.nodejs
-```
-
 ### References
 
 * https://nodejs.org/en/download/package-manager/
