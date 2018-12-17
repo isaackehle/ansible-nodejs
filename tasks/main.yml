@@ -19,24 +19,22 @@
 
   - name: Install required packages
     apt:
-      name: "{{item}}"
-      state: installed
-    with_items:
-      - build-essential
-      - apt-transport-https
-      - nodejs
-      - uuid-dev
-      - libldap2-dev
-      - libkrb5-dev
+      name: 
+        - build-essential
+        - apt-transport-https
+        - nodejs
+        - uuid-dev
+        - libldap2-dev
+        - libkrb5-dev
+      state: present
     become: true
     when: ((['init'] | intersect(flags)) | length > 0)
 
   - name: Install libcap2-bin when required
     apt:
-      name: "{{item}}"
-      state: installed
-    with_items:
-      - libcap2-bin
+      name:
+        - libcap2-bin
+      state: present
     become: true
     when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
 
