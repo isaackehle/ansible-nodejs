@@ -1,57 +1,65 @@
 ---
 
-  - name: Drop the apt list template into place
-    template: src=../templates/nodesource.list.j2 dest=/etc/apt/sources.list.d/nodesource.list owner="root" group="root" mode="0644"
-    become: true
-    when: ((['init'] | intersect(flags)) | length > 0)
+- name: Drop the apt list template into place
+  template: 
+    src: ../templates/nodesource.list.j2 
+    dest: /etc/apt/sources.list.d/nodesource.list 
+    owner: root
+    group: root 
+    mode: "0644"
+  become: true
+  when: ((['init'] | intersect(flags)) | length > 0)
 
-  - name: Install the nodesource GPG key
-    apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
-    become: true
-    when: ((['init'] | intersect(flags)) | length > 0)
+- name: Install the nodesource GPG key
+  apt_key: 
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key 
+    state: present
+  become: true
+  when: ((['init'] | intersect(flags)) | length > 0)
 
-  - name: Install required packages
-    apt:
-      update_cache: yes
-    become: true
-    changed_when: false
-    when: ((['init'] | intersect(flags)) | length > 0)
+- name: Install required packages
+  apt:
+    update_cache: yes
+  become: true
+  changed_when: false
+  when: ((['init'] | intersect(flags)) | length > 0)
 
-  - name: Install required packages
-    apt:
-      name: 
-        - build-essential
-        - apt-transport-https
-        - nodejs
-        - uuid-dev
-        - libldap2-dev
-        - libkrb5-dev
-      state: present
-    become: true
-    when: ((['init'] | intersect(flags)) | length > 0)
+- name: Install required packages
+  apt:
+    name: 
+      - build-essential
+      - apt-transport-https
+      - nodejs
+      - uuid-dev
+      - libldap2-dev
+      - libkrb5-dev
+    state: present
+  become: true
+  when: ((['init'] | intersect(flags)) | length > 0)
 
-  - name: Install libcap2-bin when required
-    apt:
-      name:
-        - libcap2-bin
-      state: present
-    become: true
-    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
+- name: Install libcap2-bin when required
+  apt:
+    name:
+      - libcap2-bin
+    state: present
+  become: true
+  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
 
-  - name: Test User Permissions To Use Ports 80/443
-    shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
-    become: true
-    register: results_cap
-    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
-    failed_when: results_cap.rc > 1
-    changed_when: false
+- name: Test User Permissions To Use Ports 80/443
+  shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
+  become: true
+  register: results_cap
+  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
+  failed_when: results_cap.rc > 1
+  changed_when: false
 
-  - set_fact:
-      differs: "{{results_cap.stdout.find('differs') >= 1}}"
+- name: Determine if the permissions are needed
+  set_fact:
+    differs: "{{ results_cap.stdout.find('differs') >= 1 }}"
 
-  - name: Give Safe User Permission To Use Ports 80/443
-    shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
-    become: true
-    when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true) and (differs|bool == true)
+- name: Give Safe User Permission To Use Ports 80/443
+  shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
+  become: true
+  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true) and (differs|bool == true)
 
 #sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
