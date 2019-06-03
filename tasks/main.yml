@@ -1,18 +1,17 @@
 ---
-
 - name: Drop the apt list template into place
-  template: 
-    src: ../templates/nodesource.list.j2 
-    dest: /etc/apt/sources.list.d/nodesource.list 
+  template:
+    src: ../templates/nodesource.list.j2
+    dest: /etc/apt/sources.list.d/nodesource.list
     owner: root
-    group: root 
+    group: root
     mode: "0644"
   become: true
   when: ((['init'] | intersect(flags)) | length > 0)
 
 - name: Install the nodesource GPG key
-  apt_key: 
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key 
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
   become: true
   when: ((['init'] | intersect(flags)) | length > 0)
@@ -26,7 +25,7 @@
 
 - name: Install required packages
   apt:
-    name: 
+    name:
       - build-essential
       - apt-transport-https
       - nodejs
@@ -61,5 +60,3 @@
   shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
   become: true
   when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true) and (differs|bool == true)
-
-#sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
