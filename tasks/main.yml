@@ -2,7 +2,7 @@
 - name: Drop the apt list template into place
   template:
     src: ../templates/nodesource.list.j2
-    dest: /etc/apt/sources.list.d/nodesource.list
+    path: /etc/apt/sources.list.d/nodesource.list
     owner: root
     group: root
     mode: "0644"
@@ -42,13 +42,13 @@
       - libcap2-bin
     state: present
   become: true
-  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
+  when: ((['init'] | intersect(flags)) | length > 0) and (enable_gui == true)
 
 - name: Test User Permissions To Use Ports 80/443
   shell: setcap -v cap_net_bind_service=+ep /usr/bin/nodejs
   become: true
   register: results_cap
-  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true)
+  when: ((['init'] | intersect(flags)) | length > 0) and (enable_gui == true)
   failed_when: results_cap.rc > 1
   changed_when: false
 
@@ -59,4 +59,4 @@
 - name: Give Safe User Permission To Use Ports 80/443
   shell: setcap cap_net_bind_service=+ep /usr/bin/nodejs
   become: true
-  when: ((['init'] | intersect(flags)) | length > 0) and (do_gui == true) and (differs|bool == true)
+  when: ((['init'] | intersect(flags)) | length > 0) and (enable_gui == true) and (differs|bool == true)
