@@ -5,8 +5,9 @@ Install NodeJS on a system
 Available on Ansible Galaxy: [pgkehle.nodejs](https://galaxy.ansible.com/pgkehle/nodejs)
 
 ## Tags for which sections to run
+
 ```yaml
-init:           # Basic installation
+init: # Basic installation
 ```
 
 ## Examples
@@ -14,7 +15,14 @@ init:           # Basic installation
 ```yaml
 - hosts: all
   roles:
-    - { role: pgkehle.nodejs, flags: ['init'] }     
+    - { role: pgkehle.nodejs, flags: ["init"] }
+```
+
+## Linting
+
+```bash
+yamllint -c yamllint.yaml .
+ansible-lint .
 ```
 
 ## License
@@ -28,5 +36,5 @@ Paul Kehle
 
 ### References
 
-* https://nodejs.org/en/download/package-manager/
-* https://github.com/nodesource/distributions
+- [NodeJS Package Manager](https://nodejs.org/en/download/package-manager/)
+- [NodeSource Distributions](https://github.com/nodesource/distributions)
