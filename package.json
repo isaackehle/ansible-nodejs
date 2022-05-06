@@ -1,6 +1,6 @@
 {
   "name": "ansible-nodejs",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Install NodeJS on a system",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pgkehle/ansible-nodejs.git"
+    "url": "git+https://github.com/isaackehle/ansible-nodejs.git"
   },
-  "author": "Paul Kehle (pgkehle@gmail.com)",
+  "author": "Isaac Kehle (isaac@kehle.org)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pgkehle/ansible-nodejs/issues"
+    "url": "https://github.com/isaackehle/ansible-nodejs/issues"
   },
-  "homepage": "https://github.com/pgkehle/ansible-nodejs#readme",
+  "homepage": "https://github.com/isaackehle/ansible-nodejs#readme",
   "main": "tasks/main.yml",
   "keywords": [
     "ansible"

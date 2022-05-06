@@ -2,7 +2,7 @@
 
 Install NodeJS on a system
 
-Available on Ansible Galaxy: [pgkehle.nodejs](https://galaxy.ansible.com/pgkehle/nodejs)
+Available on Ansible Galaxy: [isaackehle.nodejs](https://galaxy.ansible.com/isaackehle/nodejs)
 
 ## Tags for which sections to run
 
@@ -15,7 +15,7 @@ init: # Basic installation
 ```yaml
 - hosts: all
   roles:
-    - { role: pgkehle.nodejs, flags: ["init"] }
+    - { role: isaackehle.nodejs, flags: ["init"] }
 ```
 
 ## Linting
@@ -31,8 +31,8 @@ MIT
 
 ## Author Information
 
-Paul Kehle  
-@pgkehle ([twitter](https://twitter.com/pgkehle), [github](https://github.com/pgkehle), [linkedin](https://www.linkedin.com/in/pgkehle))
+Isaac Kehle
+@isaackehle ([twitter](https://twitter.com/isaackehle), [github](https://github.com/isaackehle), [linkedin](https://www.linkedin.com/in/isaackehle))
 
 ### References
 
